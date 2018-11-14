@@ -31,14 +31,37 @@ with open('students.csv', newline = '', encoding='utf-8') as file:
 content = ttk.Frame(root)
 
 def showDialog():
+    #messagebox.showinfo("Say Hello", "Hello World")
+    window = tkinter.Toplevel(root)
+    window.geometry("300x300")
+    tkinter.Label(window, text="№").grid(row=0)
+    tkinter.Label(window, text="ФИО").grid(row=1)
+    tkinter.Label(window, text="Возраст").grid(row=2)
+    tkinter.Label(window, text="Группа").grid(row=3)
+    
+
+    e1 = tkinter.Entry(window)
+    e2 = tkinter.Entry(window)
+    e3 = tkinter.Entry(window)
+    e4 = tkinter.Entry(window)
+
+    e1.grid(row=0, column=1)
+    e2.grid(row=1, column=1)
+    e3.grid(row=2, column=1)
+    e4.grid(row=3, column=1)
+    
+    tkinter.Button(window, text='Close', command=window.quit).grid(row=4, column=0, pady=4)
+    tkinter.Button(window, text='Save').grid(row=4, column=1, pady=4)
+
+def showSelected():
     messagebox.showinfo("Say Hello", "Hello World")
 
-
-
+show_info =  ttk.Button(content, text="Show", command=showSelected)
 edit = ttk.Button(content, text="Edit", command=showDialog)
 quit = ttk.Button(content, text="Quit", command=quit)
 
 content.grid(column=c, row=r)
+show_info.grid(column = c, row = r+1)
 edit.grid(column=c+1, row=r+1)
 quit.grid(column=c+2, row=r+1)
 
