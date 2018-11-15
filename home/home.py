@@ -65,7 +65,8 @@ def showDialog():
     tkinter.Button(window, text='Save').grid(row=4, column=1, pady=4)
 
 def showSelected():
-    messagebox.showinfo("Say Hello", example.cget("text"))#
+    messagebox.showinfo("Say Hello", r)#example.cget("text"
+    
 
 show_info =  ttk.Button(content, text="Show", command=showSelected)
 edit = ttk.Button(content, text="Edit", command=showDialog)
