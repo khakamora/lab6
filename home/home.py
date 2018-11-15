@@ -35,13 +35,14 @@ def prep(event):
     event.widget.config(bg='light blue')
     event.widget.focus_set()  # give keyboard focus to the label
     event.widget.bind('<Key>', edit)
+    
 
 def edit(event):
     print(event.char)
+   
 
 
-def showDialog():
-    #messagebox.showinfo("Say Hello", "Hello World")
+def showDialog():    
     window = tkinter.Toplevel(root)
     window.geometry("300x300")
     tkinter.Label(window, text="№").grid(row=0)
