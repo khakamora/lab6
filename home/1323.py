@@ -1,82 +1,52 @@
-import tkinter as tk                # python 3
-from tkinter import font  as tkfont # python 3
-#import Tkinter as tk     # python 2
-#import tkFont as tkfont  # python 2
+from tkinter import *
+from tkinter import ttk
 
-class SampleApp(tk.Tk):
+class MyApp(Tk):
 
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
-
-        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
-
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
-        container = tk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-
+    def __init__(self):
+        Tk.__init__(self)
+        container = ttk.Frame(self)
+        container.pack(side="top", fill="both", expand = True)
         self.frames = {}
-        for F in (StartPage, PageOne, PageTwo):
-            page_name = F.__name__
-            frame = F(parent=container, controller=self)
-            self.frames[page_name] = frame
+        for F in (PageOne, PageTwo):
+            frame = F(container, self)
+            self.frames[F] = frame
+            frame.grid(row=0, column=0, sticky = NSEW)
+        self.show_frame(PageOne)
 
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
-            frame.grid(row=0, column=0, sticky="nsew")
-
-        self.show_frame("StartPage")
-
-    def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
-        frame = self.frames[page_name]
+    def show_frame(self, cont):
+        frame = self.frames[cont]
         frame.tkraise()
 
 
-class StartPage(tk.Frame):
-
+class PageOne(ttk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is the start page", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
+        ttk.Frame.__init__(self, parent)
+        ttk.Label(self, text='PageOne').grid(padx=(20,20), pady=(20,20))
+        self.make_widget(controller)
 
-        button1 = tk.Button(self, text="Go to Page One",
-                            command=lambda: controller.show_frame("PageOne"))
-        button2 = tk.Button(self, text="Go to Page Two",
-                            command=lambda: controller.show_frame("PageTwo"))
-        button1.pack()
-        button2.pack()
+    def make_widget(self, controller):
+        self.some_input = StringVar
+        self.some_entry = ttk.Entry(self, textvariable=self.some_input, width=8) 
+        self.some_entry.grid()
+        button1 = ttk.Button(self, text='Next Page',
+                                  command=lambda: controller.show_frame(PageTwo))
+        button1.grid()
 
-
-class PageOne(tk.Frame):
-
+class PageTwo(ttk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is page 1", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
-        button.pack()
+        ttk.Frame.__init__(self, parent)
+        ttk.Label(self, text='PageTwo').grid(padx=(20,20), pady=(20,20))
+        button1 = ttk.Button(self, text='Previous Page',
+                             command=lambda: controller.show_frame(PageOne))
+        button1.grid()
+        button2 = ttk.Button(self, text='press to print', command=self.print_it)
+        button2.grid()
 
+    def print_it(self):
+        print ('The value stored in StartPage some_entry = ')#What do I put here 
+        #to print the value of some_input from PageOne
 
-class PageTwo(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is page 2", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
-        button.pack()
-
-
-if __name__ == "__main__":
-    app = SampleApp()
-    app.mainloop()
+app = MyApp()
+app.title('Multi-Page Test App')
+app.mainloop()
